@@ -1,0 +1,109 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 270 95% 75%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 270 95% 75%;
+    --radius: 0.75rem;
+    --afghan-purple: 270 95% 75%;
+    --afghan-background: 240 10% 3.9%;
+    --afghan-background-dark: 240 10% 2%;
+    --afghan-background-light: 240 10% 10%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  ::selection {
+    @apply bg-primary/30 text-white;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-black/20 backdrop-blur-sm border border-white/10 shadow-xl transition-all duration-300 hover:shadow-primary/10;
+  }
+  .glassmorphism {
+    @apply bg-black/30 backdrop-blur-sm border border-white/10 shadow-xl transition-all duration-300;
+  }
+  .content-card {
+    @apply glassmorphism p-6 rounded-xl;
+  }
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s infinite;
+  }
+  .form-input {
+    @apply bg-afghan-background-dark border-white/10 focus:border-afghan-purple rounded-lg px-4 py-2.5 w-full transition-all focus:ring-2 focus:ring-primary/20 focus:outline-none;
+  }
+  .form-label {
+    @apply block text-sm font-medium mb-2 text-gray-200;
+  }
+  .form-group {
+    @apply mb-6;
+  }
+  .btn-gradient {
+    @apply bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all;
+  }
+  .btn-outline-gradient {
+    @apply border border-purple-500 text-purple-400 hover:text-purple-300 hover:bg-purple-950/30 shadow-sm hover:shadow-purple-500/10 transition-all;
+  }
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+  .section-title {
+    @apply text-2xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500;
+  }
+  .section-description {
+    @apply text-gray-400 max-w-2xl mx-auto mb-6;
+  }
+  
+  @keyframes pulse-subtle {
+    0%, 100% {
+      opacity: 0.15;
+      transform: scale(2);
+    }
+    50% {
+      opacity: 0.3;
+      transform: scale(2.5);
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  .floating {
+    animation: float 3s ease-in-out infinite;
+  }
+}
