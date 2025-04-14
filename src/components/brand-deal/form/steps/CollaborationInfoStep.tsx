@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrandDealFormData } from "../types/BrandDealTypes";
 import { LinkIcon, UsersRound, Store, Users, Mail } from "lucide-react";
@@ -10,10 +9,10 @@ interface CollaborationInfoStepProps {
 
 // Platform options
 const platforms = [
-  { id: "instagram", name: "Instagram", icon: "/public/lovable-uploads/3aa068af-351e-44a0-9d28-e980ded30c87.png" },
-  { id: "tiktok", name: "TikTok", icon: "/public/lovable-uploads/379fde76-f384-479d-92ab-5c09a8af8a62.png" },
-  { id: "youtube", name: "YouTube", icon: "/public/lovable-uploads/4edef6be-386e-42cd-b141-5964c8dc167a.png" },
-  { id: "xiaohongshu", name: "Xiaohongshu", icon: "/public/lovable-uploads/10a74911-5816-48b0-8d34-02a0089526b2.png" }
+  { id: "instagram", name: "Instagram", icon: "/lovable-uploads/3aa068af-351e-44a0-9d28-e980ded30c87.png" },
+  { id: "tiktok", name: "TikTok", icon: "/lovable-uploads/379fde76-f384-479d-92ab-5c09a8af8a62.png" },
+  { id: "youtube", name: "YouTube", icon: "/lovable-uploads/4edef6be-386e-42cd-b141-5964c8dc167a.png" },
+  { id: "xiaohongshu", name: "Xiaohongshu", icon: "/lovable-uploads/10a74911-5816-48b0-8d34-02a0089526b2.png" }
 ];
 
 // Collaboration types

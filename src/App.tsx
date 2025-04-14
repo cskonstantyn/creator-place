@@ -14,7 +14,7 @@ import BrandDealPage from "./pages/BrandDealPage";
 import DiscountDealPage from "./pages/DiscountDealPage";
 import PostAd from "./pages/PostAd";
 import NotFound from "./pages/NotFound";
-import Index from "./pages/Index";
+import LandingPage from "./pages/LandingPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import AdvertisePage from "./pages/AdvertisePage";
@@ -23,6 +23,8 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import NotificationsPage from "./pages/NotificationsPage";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
 import './App.css';
 
 // Create a client
@@ -41,7 +43,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <PaywallProvider>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/faq" element={<FAQPage />} />
@@ -62,6 +64,8 @@ function App() {
             <Route path="/partnerships" element={<PartnershipPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-cancel" element={<PaymentCancel />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Toaster />

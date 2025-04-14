@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Percent, Handshake } from "lucide-react";
 import { PaymentForm } from "../payment/PaymentForm";
@@ -27,6 +27,36 @@ export function PostAdTabs({ className, currentTab, setCurrentTab }: PostAdTabsP
   const [selectedPlan, setSelectedPlan] = useState<PaymentPlan | null>(null);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [payingForTab, setPayingForTab] = useState<"discount" | "brand-deal" | null>(null);
+  
+  // Check if user already has credits or a subscription
+  useEffect(() => {
+    // Check if user has credits in localStorage
+    const userCredits = localStorage.getItem('userCredits') ? 
+      parseInt(localStorage.getItem('userCredits') || '0', 10) : 0;
+    
+    // Check if user has an active subscription
+    const userSubscription = localStorage.getItem('userSubscription');
+    
+    // Set payment complete state based on existing credits/subscription
+    if (userCredits > 0) {
+      console.log('User already has credits, enabling discount form');
+      setDiscountPaymentComplete(true);
+    }
+    
+    if (userSubscription) {
+      try {
+        const subscription = JSON.parse(userSubscription);
+        const validUntil = new Date(subscription.validUntil);
+        
+        if (validUntil > new Date()) {
+          console.log('User has an active subscription, enabling brand deal form');
+          setBrandDealPaymentComplete(true);
+        }
+      } catch (e) {
+        console.error('Error parsing subscription data:', e);
+      }
+    }
+  }, []);
   
   // Reset payment state for a specific tab
   const resetPaymentState = (tabType: "discount" | "brand-deal" | "all") => {

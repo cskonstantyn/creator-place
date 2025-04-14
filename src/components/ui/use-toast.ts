@@ -1,3 +1,13 @@
-import { useToast, toast } from "@/hooks/use-toast";
+import { toast } from "sonner"
 
-export { useToast, toast };
+// Create a simple custom hook to maintain API compatibility
+function useToast() {
+  return {
+    toast,
+    // Add any other properties needed to maintain API compatibility
+    toasts: [],
+    dismiss: () => {}
+  }
+}
+
+export { useToast, toast }

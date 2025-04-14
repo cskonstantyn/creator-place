@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 // Import types from our local adapter
 import { getAllPaywallProducts, Product, Price } from './adapter';
-import { redirectToCheckout, generateClientReferenceId } from '../stripe/client';
-import { toast } from 'sonner';
+import { redirectToCheckout, createCheckoutSession, getStripePriceId, generateClientReferenceId } from '../stripe/client';
+import { toast } from "sonner";
 
 // Check if we're in mock mode
 const useMockData = import.meta.env.VITE_USE_MOCK_DATA === 'true';
@@ -53,10 +53,21 @@ export const PaywallProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const stripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
       
       if (isProd && stripeKey && !useMockData) {
-        // Here we would call the API to create a checkout session
-        // For now, we'll fake a session ID
-        const fakeSessionId = `cs_test_${generateClientReferenceId()}`;
-        await redirectToCheckout(fakeSessionId);
+        // Determine the correct price ID from Stripe
+        let stripePriceId = price.id; // Default to the price ID we have
+        
+        // Map our internal price to Stripe price ID if needed
+        if (price.metadata?.stripe_price_id) {
+          stripePriceId = price.metadata.stripe_price_id;
+        }
+        
+        // Create checkout session with success and cancel URLs
+        const successUrl = `${window.location.origin}/payment-success?type=one-time&product=${price.product_id}`;
+        const cancelUrl = `${window.location.origin}/payment-cancel`;
+        const sessionId = await createCheckoutSession(stripePriceId, successUrl, cancelUrl);
+        
+        // Redirect to Stripe checkout
+        await redirectToCheckout(sessionId);
       } else {
         console.log('Mock purchase:', price);
         
@@ -97,10 +108,21 @@ export const PaywallProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const stripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
       
       if (isProd && stripeKey && !useMockData) {
-        // Here we would call the API to create a checkout session for subscription
-        // For now, we'll fake a session ID
-        const fakeSessionId = `cs_test_${generateClientReferenceId()}`;
-        await redirectToCheckout(fakeSessionId);
+        // Determine the correct price ID from Stripe
+        let stripePriceId = price.id; // Default to the price ID we have
+        
+        // Map our internal price to Stripe price ID if needed
+        if (price.metadata?.stripe_price_id) {
+          stripePriceId = price.metadata.stripe_price_id;
+        }
+        
+        // Create checkout session with success and cancel URLs
+        const successUrl = `${window.location.origin}/payment-success?type=subscription&product=${price.product_id}`;
+        const cancelUrl = `${window.location.origin}/payment-cancel`;
+        const sessionId = await createCheckoutSession(stripePriceId, successUrl, cancelUrl);
+        
+        // Redirect to Stripe checkout
+        await redirectToCheckout(sessionId);
       } else {
         console.log('Mock subscribe:', price);
         
@@ -134,10 +156,21 @@ export const PaywallProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const stripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
       
       if (isProd && stripeKey && !useMockData) {
-        // Here we would call the API to create a checkout session with credits in metadata
-        // For now, we'll fake a session ID
-        const fakeSessionId = `cs_test_${generateClientReferenceId()}`;
-        await redirectToCheckout(fakeSessionId);
+        // Determine the correct price ID from Stripe
+        let stripePriceId = price.id; // Default to the price ID we have
+        
+        // Map our internal price to Stripe price ID if needed
+        if (price.metadata?.stripe_price_id) {
+          stripePriceId = price.metadata.stripe_price_id;
+        }
+        
+        // Create checkout session with success and cancel URLs
+        const successUrl = `${window.location.origin}/payment-success?type=credit&product=${price.product_id}&credits=${credits}`;
+        const cancelUrl = `${window.location.origin}/payment-cancel`;
+        const sessionId = await createCheckoutSession(stripePriceId, successUrl, cancelUrl);
+        
+        // Redirect to Stripe checkout
+        await redirectToCheckout(sessionId);
       } else {
         console.log('Mock credit purchase:', price, credits);
         

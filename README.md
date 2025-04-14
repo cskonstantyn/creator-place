@@ -285,3 +285,118 @@ npm run build:frontend-only
 ```
 
 All API calls will use mock data defined in `src/mockData/` directory. See [FRONTEND_ONLY.md](FRONTEND_ONLY.md) for more details.
+
+# CreatorDeals
+
+A platform connecting content creators with brands to enable authentic partnerships and monetization opportunities.
+
+## Features
+
+- **Landing Page** - Modern, responsive landing page that explains the platform for different user types
+- **Stripe Integration** - Seamless payment processing for posting discount deals and brand deals
+- **Content Browse** - Explore deals from creators and brands
+- **Separate Interfaces** - Tailored experiences for regular users, content creators, and brands
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16+)
+- npm or yarn
+- Supabase CLI (for Edge Functions)
+- Stripe account (for payment processing)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd creator-place
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Set up environment variables:
+   Create a `.env` file based on `.env.example` with your own values:
+   ```
+   VITE_USE_MOCK_DATA=false
+   VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+   VITE_PAYMENT_SUCCESS_URL=/payment-success
+   VITE_PAYMENT_CANCEL_URL=/payment-cancel
+   VITE_USE_MOCK_PAYWALL=false
+   VITE_SUPABASE_FUNCTIONS_URL=https://your-project-ref.supabase.co/functions/v1
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+## Supabase Edge Functions
+
+The project uses Supabase Edge Functions for Stripe integration. See the [Supabase README](./supabase/README.md) for details on deploying the Edge Functions.
+
+### Deployment Steps
+
+1. Install the Supabase CLI
+2. Set up environment variables in your Supabase project
+3. Deploy the Edge Functions:
+   ```bash
+   cd supabase/functions
+   ./deploy.sh
+   ```
+
+## Payment Flow
+
+The payment process works as follows:
+
+1. User selects a plan (discount deal or brand deal)
+2. Frontend calls the Supabase Edge Function to create a Stripe checkout session
+3. User is redirected to Stripe for payment
+4. After payment completion, user is redirected back to the success page
+5. Platform credits are added to the user's account
+
+## Development
+
+### Code Structure
+
+- `/src` - Frontend React application
+  - `/components` - Reusable UI components
+  - `/lib` - Utilities and helpers
+  - `/pages` - Page components
+- `/supabase` - Supabase Edge Functions
+  - `/functions` - Edge function implementations
+
+### Running Tests
+
+```bash
+npm test
+# or
+yarn test
+```
+
+## Deployment
+
+The frontend can be deployed to any static hosting service (Vercel, Netlify, etc.):
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+## Technology Stack
+
+- **Frontend:** React, TypeScript, TailwindCSS
+- **Backend:** Supabase
+- **Payments:** Stripe
+- **Authentication:** Supabase Auth
+- **Database:** Supabase PostgreSQL
+- **Edge Functions:** Supabase Edge Functions (Deno)
